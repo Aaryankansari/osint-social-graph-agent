@@ -1,0 +1,110 @@
+:root {
+    --bg-color: #121212;
+    --sidebar-bg: rgba(30, 30, 30, 0.85);
+    --accent: #bb86fc;
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --node-color: #03dac6;
+    --edge-color: #888;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+#sidebar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 300px;
+    height: calc(100% - 40px);
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+h1 { margin: 0; font-size: 1.5rem; color: var(--accent); }
+h3 { margin: 0; font-size: 1rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+input {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    flex: 1;
+}
+button {
+    background: var(--accent);
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+button:hover { background: #cf9eff; }
+
+#cy {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+}
+
+#nodeInfo {
+    font-size: 0.9rem;
+    padding: 10px;
+    background: #222;
+    border-radius: 4px;
+    min-height: 50px;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: white; 
+    resize: none;
+    padding: 5px;
+}
+
+#loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    z-index: 20;
+}
+.hidden { display: none; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Social Graph Agent</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div id="sidebar">
+        <h1>🔍 OSINT Agent</h1>
+        <div class="input-group">
+            <input type="text" id="searchInput" placeholder="Enter Full Name (e.g., Elon Musk)">
+            <button onclick="performSearch()">Analyze</button>
+        </div>
+
+        <div id="controls">
+            <h3>Filters</h3>
+            <label><input type="checkbox" checked onchange="filterGraph('PERSON', this)"> People</label>
+            <label><input type="checkbox" checked onchange="filterGraph('ORG', this)"> Organizations</label>
+            <label><input type="checkbox" checked onchange="filterGraph('GPE', this)"> Locations</label>
+        </div>
+
+        <div id="details">
+            <h3>Details</h3>
+            <div id="nodeInfo">Click on a node/edge...</div>
+            <textarea id="annotationInput" placeholder="Add notes here..."></textarea>
+            <button onclick="saveAnnotation()">Save Note</button>
+        </div>
+
+        <div id="actions">
+            <button onclick="saveToCloud()">💾 Save to Cloud</button>
+            <button onclick="exportReport()">📄 Export Report</button>
+            <button onclick="exportImage()">📸 Save Graph Image</button>
+        </div>
+    </div>
+
+    <div id="cy"></div>
+
+    <div id="loader" class="hidden">Scanning public sources...</div>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

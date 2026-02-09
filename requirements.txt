@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+duckduckgo-search>=5.0.0
+spacy
+networkx
+beautifulsoup4
+requests
+python-multipart
+gunicorn
