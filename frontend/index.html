@@ -5,43 +5,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSINT Social Graph Agent</title>
-    <link rel="stylesheet" href="style.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Cytoscape & PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-popper@2.0.0/cytoscape-popper.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="sidebar">
-        <h1>🔍 OSINT Agent</h1>
-        <div class="input-group">
-            <input type="text" id="searchInput" placeholder="Enter Full Name (e.g., Elon Musk)">
-            <button onclick="performSearch()">Analyze</button>
-        </div>
 
-        <div id="controls">
-            <h3>Filters</h3>
-            <label><input type="checkbox" checked onchange="filterGraph('PERSON', this)"> People</label>
-            <label><input type="checkbox" checked onchange="filterGraph('ORG', this)"> Organizations</label>
-            <label><input type="checkbox" checked onchange="filterGraph('GPE', this)"> Locations</label>
-        </div>
+    <!-- Main App Container -->
+    <div id="app-container">
 
-        <div id="details">
-            <h3>Details</h3>
-            <div id="nodeInfo">Click on a node/edge...</div>
-            <textarea id="annotationInput" placeholder="Add notes here..."></textarea>
-            <button onclick="saveAnnotation()">Save Note</button>
-        </div>
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <h1><i class="fa-solid fa-circle-nodes"></i> OSINT Graph</h1>
+                <p>Social Reconstruction Agent</p>
+            </div>
 
-        <div id="actions">
-            <button onclick="saveToCloud()">💾 Save to Cloud</button>
-            <button onclick="exportReport()">📄 Export Report</button>
-            <button onclick="exportImage()">📸 Save Graph Image</button>
-        </div>
+            <div class="search-section">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Enter full name (e.g. Elon Musk)..."
+                        autocomplete="off">
+                </div>
+                <button id="searchBtn" onclick="performSearch()">
+                    <span>Analyze</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="controls-section">
+                <h3><i class="fa-solid fa-filter"></i> Filters</h3>
+                <div class="filter-group">
+                    <label class="filter-chip person">
+                        <input type="checkbox" checked onchange="filterGraph('PERSON', this)">
+                        <span>People</span>
+                    </label>
+                    <label class="filter-chip org">
+                        <input type="checkbox" checked onchange="filterGraph('ORG', this)">
+                        <span>Orgs</span>
+                    </label>
+                    <label class="filter-chip gpe">
+                        <input type="checkbox" checked onchange="filterGraph('GPE', this)">
+                        <span>Locations</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="actions-section">
+                <h3><i class="fa-solid fa-bolt"></i> Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn secondary" onclick="saveToCloud()"><i
+                            class="fa-solid fa-cloud-arrow-up"></i> Save</button>
+                    <button class="action-btn secondary" onclick="exportReport()"><i
+                            class="fa-solid fa-file-export"></i> Report</button>
+                    <button class="action-btn secondary" onclick="exportImage()"><i class="fa-solid fa-camera"></i>
+                        Snapshot</button>
+                </div>
+            </div>
+
+            <!-- Context/Details Panel (Initially Hidden or Empty) -->
+            <div id="details-panel" class="details-panel hidden">
+                <div class="details-header">
+                    <h3 id="details-title">Node Details</h3>
+                    <button class="close-details" onclick="closeDetails()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="details-content">
+                    <p class="placeholder-text">Select a node to view details.</p>
+                </div>
+                <div class="annotation-wrapper">
+                    <textarea id="annotationInput" placeholder="Add a private note..."></textarea>
+                    <button class="save-note-btn" onclick="saveAnnotation()">Save Note</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Graph Visualization Area -->
+        <main id="graph-container">
+            <div id="cy"></div>
+
+            <!-- Floating Overlay Information (e.g. stats) -->
+            <div id="graph-overlay">
+                <div class="stat-item">
+                    <span class="stat-value" id="nodeCount">0</span>
+                    <span class="stat-label">Nodes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="edgeCount">0</span>
+                    <span class="stat-label">Connections</span>
+                </div>
+            </div>
+        </main>
+
     </div>
 
-    <div id="cy"></div>
-
-    <div id="loader" class="hidden">Scanning public sources...</div>
+    <!-- Loader Overlay -->
+    <div id="loader" class="loader-overlay hidden">
+        <div class="spinner"></div>
+        <p class="loading-text">Scanning public sources...</p>
+        <p class="sub-text">Connecting dots across the web</p>
+    </div>
 
     <script type="module" src="script.js"></script>
 </body>
